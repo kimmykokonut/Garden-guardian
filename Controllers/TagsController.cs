@@ -33,8 +33,8 @@ namespace GardenApi.Controllers
     public async Task<ActionResult<Tag>> GetTag(int id)
     {
       Tag thisTag = await _db.Tags
-      //.Include(tag => tag.SeedTags)
-      //.ThenInclude(join => join.Seed)
+      .Include(tag => tag.SeedTags)
+      .ThenInclude(join => join.Seed)
       .FirstOrDefaultAsync(tag => tag.TagId == id);
       if (thisTag == null)
       {
@@ -100,18 +100,18 @@ namespace GardenApi.Controllers
       return NoContent();
     }
 
-//     [HttpPost("AddSeed")] //addseed JE to tag
-//     public async Task<IActionResult> AddSeed(Tag tag, int seedId)
-//     {
-// #nullable enable
-//       SeedTag? joinEnt = await _db.SeedTags.FirstOrDefaultAsync(join => (join.SeedId == seedId && join.TagId == tag.TagId));
-// #nullable disable
-//       if (joinEnt == null && seedId != 0)
-//       {
-//         _db.SeedTags.Add(new SeedTag() { SeedId = seedId, TagId = tag.TagId });
-//         await _db.SaveChangesAsync();
-//       }
-//       return NoContent();
-//     }
+    [HttpPost("AddSeed")] //addseed JE to tag
+    public async Task<IActionResult> AddSeed(Tag tag, int seedId)
+    {
+#nullable enable
+      SeedTag? joinEnt = await _db.SeedTags.FirstOrDefaultAsync(join => (join.SeedId == seedId && join.TagId == tag.TagId));
+#nullable disable
+      if (joinEnt == null && seedId != 0)
+      {
+        _db.SeedTags.Add(new SeedTag() { SeedId = seedId, TagId = tag.TagId });
+        await _db.SaveChangesAsync();
+      }
+      return NoContent();
+    }
    }
 }

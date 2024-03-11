@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using GardenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
@@ -8,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddJsonOptions(opt =>
 {
-    // opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;  //removed infinite loop that was happening with get seed by id.
+    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;  //removed infinite loop that was happening with get seed by id.
 });// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDbContext<GardenApiContext>(
     dbContextOptions => dbContextOptions

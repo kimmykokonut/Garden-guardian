@@ -8,6 +8,6 @@ namespace GardenApi.Models
     [Required]
     [StringLength(100)]
     public string NameTag { get; set; }
-    //public List<SeedTag> SeedTags { get; }
+    public List<SeedTag> SeedTags { get; }
   }
 }

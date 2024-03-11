@@ -10,7 +10,7 @@ namespace GardenApi.Models
     public DbSet<Seed> Seeds { get; set; }
     public DbSet<Tag> Tags { get; set; }
     // public DbSet<GridSeed> GridSeeds { get; set; }
-    // public DbSet<SeedTag> SeedTags { get; set; }
+    public DbSet<SeedTag> SeedTags { get; set; }
     // public DbSet<ApplicationUser> Users { get; set; }
     // public DbSet<IdentityUserClaim<string>> UserClaims { get; set; }
 

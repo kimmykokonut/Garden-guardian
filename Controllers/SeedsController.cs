@@ -49,8 +49,8 @@ public class SeedsController : ControllerBase
   public async Task<ActionResult<Seed>> GetSeed(int id)
   {
     Seed foundSeed = await _db.Seeds
-    //.Include(seed => seed.SeedTags) //load JE prop of each seed (the List<SeedTag>)
-    //.ThenInclude(join => join.Tag) //actual item
+    .Include(seed => seed.SeedTags) //load JE prop of each seed (the List<SeedTag>)
+    .ThenInclude(join => join.Tag) //actual item
     .FirstOrDefaultAsync(seed => seed.SeedId == id);
     if (foundSeed == null)
     {
@@ -110,18 +110,18 @@ public class SeedsController : ControllerBase
     return NoContent();
   }
 
-//   [HttpPost("AddTag")] //addtag JE to seed
-//   public async Task<IActionResult> AddTag(Seed seed, int tagId)
-//   {
-// #nullable enable
-//     SeedTag? joinEnt = await _db.SeedTags.FirstOrDefaultAsync(join => (join.TagId == tagId && join.SeedId == seed.SeedId));
-// #nullable disable
-//     if (joinEnt == null && tagId != 0)
-//     {
-//       _db.SeedTags.Add(new SeedTag() { TagId = tagId, SeedId = seed.SeedId });
-//       await _db.SaveChangesAsync();
-//     }
-//     return NoContent();
-//   }
+  [HttpPost("AddTag")] //addtag JE to seed
+  public async Task<IActionResult> AddTag(Seed seed, int tagId)
+  {
+#nullable enable
+    SeedTag? joinEnt = await _db.SeedTags.FirstOrDefaultAsync(join => join.TagId == tagId && join.SeedId == seed.SeedId);
+#nullable disable
+    if (joinEnt == null && tagId != 0)
+    {
+      _db.SeedTags.Add(new SeedTag() { TagId = tagId, SeedId = seed.SeedId });
+      await _db.SaveChangesAsync();
+    }
+    return NoContent();
+  }
 
 }
