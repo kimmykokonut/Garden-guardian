@@ -28,8 +28,8 @@ namespace GardenApi.Controllers
     public async Task<ActionResult<Grid>> GetGrid(int id)
     {
       var grid = await _db.Grids
-          //.Include(g => g.GridSeeds)
-          //.ThenInclude(gs => gs.Seed)
+          .Include(g => g.GridSeeds)
+          .ThenInclude(gs => gs.Seed)
           .FirstOrDefaultAsync(g => g.GridId == id);
 
       if (grid == null)
@@ -97,5 +97,19 @@ namespace GardenApi.Controllers
     {
       return _db.Grids.Any(e => e.GridId == id);
     }
+    [HttpPost("AddSeed")] //addseed JE to grid
+    public async Task<IActionResult> AddSeed(Grid grid, int seedId)
+    {
+#nullable enable
+      GridSeed? joinEnt = await _db.GridSeeds.FirstOrDefaultAsync(join => join.SeedId == seedId && join.GridId == grid.GridId);
+#nullable disable
+      if (joinEnt == null && seedId != 0)
+      {
+        _db.GridSeeds.Add(new GridSeed() { SeedId = seedId, GridId = grid.GridId });
+        await _db.SaveChangesAsync();
+      }
+      return NoContent();
+    }
+
   }
 }

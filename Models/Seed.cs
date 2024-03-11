@@ -27,6 +27,6 @@ namespace GardenApi.Models
     public string Results { get; set; }
     public int Yield { get; set; }
     public List<SeedTag> SeedTags { get; }
-    // public List<GridSeed> GridSeeds { get; }
+    public List<GridSeed> GridSeeds { get; }
   }
 }

@@ -2,6 +2,7 @@
 using GardenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GardenGuardian.Migrations
 {
     [DbContext(typeof(GardenApiContext))]
-    partial class GardenApiContextModelSnapshot : ModelSnapshot
+    [Migration("20240311213153_AddGridSeed")]
+    partial class AddGridSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,13 +214,13 @@ namespace GardenGuardian.Migrations
             modelBuilder.Entity("GardenApi.Models.GridSeed", b =>
                 {
                     b.HasOne("GardenApi.Models.Grid", "Grid")
-                        .WithMany("GridSeeds")
+                        .WithMany()
                         .HasForeignKey("GridId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GardenApi.Models.Seed", "Seed")
-                        .WithMany("GridSeeds")
+                        .WithMany()
                         .HasForeignKey("SeedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -247,15 +249,8 @@ namespace GardenGuardian.Migrations
                     b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("GardenApi.Models.Grid", b =>
-                {
-                    b.Navigation("GridSeeds");
-                });
-
             modelBuilder.Entity("GardenApi.Models.Seed", b =>
                 {
-                    b.Navigation("GridSeeds");
-
                     b.Navigation("SeedTags");
                 });
 

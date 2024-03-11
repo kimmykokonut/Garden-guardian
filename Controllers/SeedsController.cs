@@ -49,9 +49,12 @@ public class SeedsController : ControllerBase
   public async Task<ActionResult<Seed>> GetSeed(int id)
   {
     Seed foundSeed = await _db.Seeds
-    .Include(seed => seed.SeedTags) //load JE prop of each seed (the List<SeedTag>)
-    .ThenInclude(join => join.Tag) //actual item
-    .FirstOrDefaultAsync(seed => seed.SeedId == id);
+    .Include(s => s.SeedTags) //load JE prop of each seed (the List<SeedTag>)
+    .ThenInclude(st => st.Tag) //actual item
+    .Include(s => s.GridSeeds)
+    .ThenInclude(gs => gs.Grid)
+    .FirstOrDefaultAsync(s => s.SeedId == id);
+
     if (foundSeed == null)
     {
       return NotFound();
