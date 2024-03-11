@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace GardenApi.Models
@@ -7,10 +6,9 @@ namespace GardenApi.Models
   {
     public int GridId { get; set; }
     [Required]
-    //to be like 1A, 2C etc.
     public string LocationCode { get; set; }
-    //public int GardenId { get; set; }
-    //public Garden Garden { get; set; }
+    public int GardenId { get; set; }
+    public Garden Garden { get; set; } 
     public List<GridSeed> GridSeeds { get; }
   }
 }

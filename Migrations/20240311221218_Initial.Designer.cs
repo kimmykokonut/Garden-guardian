@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GardenGuardian.Migrations
 {
     [DbContext(typeof(GardenApiContext))]
-    [Migration("20240311211210_AddSeedTag")]
-    partial class AddSeedTag
+    [Migration("20240311221218_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,13 +55,41 @@ namespace GardenGuardian.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GridId"));
 
+                    b.Property<int>("GardenId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("LocationCode")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("GridId");
 
+                    b.HasIndex("GardenId");
+
                     b.ToTable("Grids");
+                });
+
+            modelBuilder.Entity("GardenApi.Models.GridSeed", b =>
+                {
+                    b.Property<int>("GridSeedId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GridSeedId"));
+
+                    b.Property<int>("GridId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SeedId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("GridSeedId");
+
+                    b.HasIndex("GridId");
+
+                    b.HasIndex("SeedId");
+
+                    b.ToTable("GridSeeds");
                 });
 
             modelBuilder.Entity("GardenApi.Models.Seed", b =>
@@ -188,6 +216,36 @@ namespace GardenGuardian.Migrations
                     b.ToTable("Tags");
                 });
 
+            modelBuilder.Entity("GardenApi.Models.Grid", b =>
+                {
+                    b.HasOne("GardenApi.Models.Garden", "Garden")
+                        .WithMany("Grids")
+                        .HasForeignKey("GardenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Garden");
+                });
+
+            modelBuilder.Entity("GardenApi.Models.GridSeed", b =>
+                {
+                    b.HasOne("GardenApi.Models.Grid", "Grid")
+                        .WithMany("GridSeeds")
+                        .HasForeignKey("GridId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GardenApi.Models.Seed", "Seed")
+                        .WithMany("GridSeeds")
+                        .HasForeignKey("SeedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Grid");
+
+                    b.Navigation("Seed");
+                });
+
             modelBuilder.Entity("GardenApi.Models.SeedTag", b =>
                 {
                     b.HasOne("GardenApi.Models.Seed", "Seed")
@@ -207,8 +265,20 @@ namespace GardenGuardian.Migrations
                     b.Navigation("Tag");
                 });
 
+            modelBuilder.Entity("GardenApi.Models.Garden", b =>
+                {
+                    b.Navigation("Grids");
+                });
+
+            modelBuilder.Entity("GardenApi.Models.Grid", b =>
+                {
+                    b.Navigation("GridSeeds");
+                });
+
             modelBuilder.Entity("GardenApi.Models.Seed", b =>
                 {
+                    b.Navigation("GridSeeds");
+
                     b.Navigation("SeedTags");
                 });
 

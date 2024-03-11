@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace GardenApi.Models
 {
-  public class GardenApiContext : DbContext
+    public class GardenApiContext : DbContext
   {
     public DbSet<Garden> Gardens { get; set; }
     public DbSet<Grid> Grids { get; set; }
@@ -20,19 +19,6 @@ namespace GardenApi.Models
     protected override void OnModelCreating(ModelBuilder builder)
     {
       base.OnModelCreating(builder);
-
-      // builder.Entity<SeedTag>()
-      //     .HasKey(st => new { st.SeedTagId });
-
-      // builder.Entity<SeedTag>()
-      //     .HasOne(s => s.Seed)
-      //     .WithMany(st => st.SeedTags)
-      //     .HasForeignKey(s => s.SeedId);
-
-      // builder.Entity<SeedTag>()
-      //     .HasOne(t => t.Tag)
-      //     .WithMany(st => st.SeedTags)
-      //     .HasForeignKey(t => t.TagId);
 
       builder.Entity<Seed>()
           .HasData(
@@ -56,8 +42,6 @@ namespace GardenApi.Models
                 DatePlanted = "2-14-2024"
               }
           );
-
-
     }
   }
 }

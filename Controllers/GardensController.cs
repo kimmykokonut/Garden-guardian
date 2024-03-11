@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using GardenApi.Models;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 namespace GardenApi.Controllers
@@ -17,7 +15,6 @@ namespace GardenApi.Controllers
       _db = db;
     }
 
-    //GET api/gardens  same as index
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Garden>>> Get(string name, string size, int gridQty)
     {
@@ -36,22 +33,19 @@ namespace GardenApi.Controllers
       return await query.ToListAsync();
     }
 
-    //GET api/gardens/5 same as details
-    [HttpGet("{id}")]
+    [HttpGet("{id}")] 
     public async Task<ActionResult<Garden>> GetGarden(int id)
     {
       Garden thisgarden = await _db.Gardens
-        //.Include(garden => garden.Grids)
+        .Include(garden => garden.Grids)
         .FirstOrDefaultAsync(garden => garden.GardenId == id);
       if (thisgarden == null)
       {
         return NotFound();
       }
       return thisgarden;
-
     }
 
-    //POST api/gardens same as create
     [HttpPost]
     public async Task<ActionResult<Garden>> Post(Garden garden)
     {
@@ -60,7 +54,6 @@ namespace GardenApi.Controllers
       return CreatedAtAction(nameof(GetGarden), new { id = garden.GardenId }, garden);
     }
 
-    //PUT api/gardens/5
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(int id, Garden garden)
     {
@@ -92,7 +85,6 @@ namespace GardenApi.Controllers
       return _db.Gardens.Any(e => e.GardenId == id);
     }
 
-    //`DELETE` api/gardens/5
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteGarden(int id)
     {
@@ -105,6 +97,5 @@ namespace GardenApi.Controllers
       await _db.SaveChangesAsync();
       return NoContent();
     }
-
   }
 }

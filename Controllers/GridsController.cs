@@ -1,9 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using GardenApi.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace GardenApi.Controllers
 {
@@ -19,7 +16,7 @@ namespace GardenApi.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Grid>>> GetGrids() //return a sequence of grids
+    public async Task<ActionResult<IEnumerable<Grid>>> GetGrids()
     {
       return await _db.Grids.ToListAsync();
     }
@@ -27,7 +24,8 @@ namespace GardenApi.Controllers
     [HttpGet("{id}")]
     public async Task<ActionResult<Grid>> GetGrid(int id)
     {
-      var grid = await _db.Grids
+      Grid grid = await _db.Grids
+          .Include(grid => grid.Garden)
           .Include(g => g.GridSeeds)
           .ThenInclude(gs => gs.Seed)
           .FirstOrDefaultAsync(g => g.GridId == id);
@@ -36,7 +34,6 @@ namespace GardenApi.Controllers
       {
         return NotFound();
       }
-
       return grid;
     }
 
@@ -50,7 +47,7 @@ namespace GardenApi.Controllers
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutGrid(int id, Grid grid) //determines result of action
+    public async Task<IActionResult> PutGrid(int id, Grid grid)
     {
       if (id != grid.GridId)
       {
@@ -74,7 +71,6 @@ namespace GardenApi.Controllers
           throw;
         }
       }
-
       return NoContent();
     }
 
@@ -97,7 +93,7 @@ namespace GardenApi.Controllers
     {
       return _db.Grids.Any(e => e.GridId == id);
     }
-    [HttpPost("AddSeed")] //addseed JE to grid
+    [HttpPost("AddSeed")]
     public async Task<IActionResult> AddSeed(Grid grid, int seedId)
     {
 #nullable enable
@@ -110,6 +106,5 @@ namespace GardenApi.Controllers
       }
       return NoContent();
     }
-
   }
 }

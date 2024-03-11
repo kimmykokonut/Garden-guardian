@@ -62,14 +62,14 @@ public class SeedsController : ControllerBase
     return foundSeed;
   }
   [HttpPost]
-  public async Task<ActionResult<Seed>> Post(Seed seed) //CREATE
+  public async Task<ActionResult<Seed>> Post(Seed seed)
   {
     _db.Seeds.Add(seed);
     await _db.SaveChangesAsync();
     return CreatedAtAction(nameof(GetSeed), new { id = seed.SeedId }, seed);
   }
 
-  [HttpPut("{id}")] //EDIT
+  [HttpPut("{id}")]
   public async Task<IActionResult> Put(int id, Seed seed)
   {
     if (id != seed.SeedId)
@@ -113,7 +113,7 @@ public class SeedsController : ControllerBase
     return NoContent();
   }
 
-  [HttpPost("AddTag")] //addtag JE to seed
+  [HttpPost("AddTag")]
   public async Task<IActionResult> AddTag(Seed seed, int tagId)
   {
 #nullable enable
@@ -126,5 +126,4 @@ public class SeedsController : ControllerBase
     }
     return NoContent();
   }
-
 }

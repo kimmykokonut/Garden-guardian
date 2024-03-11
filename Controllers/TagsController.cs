@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GardenApi.Models;
-using System.Linq;
 
 namespace GardenApi.Controllers
 {
@@ -43,7 +42,6 @@ namespace GardenApi.Controllers
       return thisTag;
     }
 
-    //create tag
     [HttpPost]
     public async Task<ActionResult<Tag>> Post(Tag tag)
     {
@@ -52,7 +50,6 @@ namespace GardenApi.Controllers
       return CreatedAtAction(nameof(GetTag), new { id = tag.TagId }, tag);
     }
 
-    //update/edit tag
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(int id, Tag tag)
     {
@@ -76,7 +73,6 @@ namespace GardenApi.Controllers
           throw;
         }
       }
-
       return NoContent();
     }
 
@@ -85,7 +81,6 @@ namespace GardenApi.Controllers
       return _db.Tags.Any(e => e.TagId == id);
     }
 
-    //delete tag
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTag(int id)
     {
@@ -100,11 +95,11 @@ namespace GardenApi.Controllers
       return NoContent();
     }
 
-    [HttpPost("AddSeed")] //addseed JE to tag
+    [HttpPost("AddSeed")]
     public async Task<IActionResult> AddSeed(Tag tag, int seedId)
     {
 #nullable enable
-      SeedTag? joinEnt = await _db.SeedTags.FirstOrDefaultAsync(join => (join.SeedId == seedId && join.TagId == tag.TagId));
+      SeedTag? joinEnt = await _db.SeedTags.FirstOrDefaultAsync(join => join.SeedId == seedId && join.TagId == tag.TagId);
 #nullable disable
       if (joinEnt == null && seedId != 0)
       {
@@ -113,5 +108,5 @@ namespace GardenApi.Controllers
       }
       return NoContent();
     }
-   }
+  }
 }

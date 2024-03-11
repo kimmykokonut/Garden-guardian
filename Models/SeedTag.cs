@@ -7,6 +7,5 @@ namespace GardenApi.Models
     public Tag Tag { get; set; }
     public int SeedId { get; set; }
     public Seed Seed { get; set; }
-
   }
 }

@@ -53,11 +53,16 @@ namespace GardenGuardian.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GridId"));
 
+                    b.Property<int>("GardenId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("LocationCode")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("GridId");
+
+                    b.HasIndex("GardenId");
 
                     b.ToTable("Grids");
                 });
@@ -209,6 +214,17 @@ namespace GardenGuardian.Migrations
                     b.ToTable("Tags");
                 });
 
+            modelBuilder.Entity("GardenApi.Models.Grid", b =>
+                {
+                    b.HasOne("GardenApi.Models.Garden", "Garden")
+                        .WithMany("Grids")
+                        .HasForeignKey("GardenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Garden");
+                });
+
             modelBuilder.Entity("GardenApi.Models.GridSeed", b =>
                 {
                     b.HasOne("GardenApi.Models.Grid", "Grid")
@@ -245,6 +261,11 @@ namespace GardenGuardian.Migrations
                     b.Navigation("Seed");
 
                     b.Navigation("Tag");
+                });
+
+            modelBuilder.Entity("GardenApi.Models.Garden", b =>
+                {
+                    b.Navigation("Grids");
                 });
 
             modelBuilder.Entity("GardenApi.Models.Grid", b =>
