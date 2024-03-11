@@ -45,53 +45,53 @@ public class SeedsController : ControllerBase
 
     return await q.ToListAsync();
   }
-  // [HttpGet("{id}")]
-  // public async Task<ActionResult<Seed>> GetSeed(int id)
-  // {
-  //   Seed foundSeed = await _db.Seeds
-  //   .Include(seed => seed.SeedTags) //load JE prop of each seed (the List<SeedTag>)
-  //   .ThenInclude(join => join.Tag) //actual item
-  //   .FirstOrDefaultAsync(seed => seed.SeedId == id);
-  //   if (foundSeed == null)
-  //   {
-  //     return NotFound();
-  //   }
-  //   return foundSeed;
-  // }
-  // [HttpPost]
-  // public async Task<ActionResult<Seed>> Post(Seed seed) //CREATE
-  // {
-  //   _db.Seeds.Add(seed);
-  //   await _db.SaveChangesAsync();
-  //   return CreatedAtAction(nameof(GetSeed), new { id = seed.SeedId }, seed);
-  // }
+  [HttpGet("{id}")]
+  public async Task<ActionResult<Seed>> GetSeed(int id)
+  {
+    Seed foundSeed = await _db.Seeds
+    //.Include(seed => seed.SeedTags) //load JE prop of each seed (the List<SeedTag>)
+    //.ThenInclude(join => join.Tag) //actual item
+    .FirstOrDefaultAsync(seed => seed.SeedId == id);
+    if (foundSeed == null)
+    {
+      return NotFound();
+    }
+    return foundSeed;
+  }
+  [HttpPost]
+  public async Task<ActionResult<Seed>> Post(Seed seed) //CREATE
+  {
+    _db.Seeds.Add(seed);
+    await _db.SaveChangesAsync();
+    return CreatedAtAction(nameof(GetSeed), new { id = seed.SeedId }, seed);
+  }
 
-  // [HttpPut("{id}")] //EDIT
-  // public async Task<IActionResult> Put(int id, Seed seed)
-  // {
-  //   if (id != seed.SeedId)
-  //   {
-  //     return BadRequest();
-  //   }
-  //   _db.Seeds.Update(seed);
+  [HttpPut("{id}")] //EDIT
+  public async Task<IActionResult> Put(int id, Seed seed)
+  {
+    if (id != seed.SeedId)
+    {
+      return BadRequest();
+    }
+    _db.Seeds.Update(seed);
 
-  //   try
-  //   {
-  //     await _db.SaveChangesAsync();
-  //   }
-  //   catch (DbUpdateConcurrencyException)
-  //   {
-  //     if (!SeedExists(id))
-  //     {
-  //       return NotFound();
-  //     }
-  //     else
-  //     {
-  //       throw;
-  //     }
-  //   }
-  //   return NoContent();
-  // }
+    try
+    {
+      await _db.SaveChangesAsync();
+    }
+    catch (DbUpdateConcurrencyException)
+    {
+      if (!SeedExists(id))
+      {
+        return NotFound();
+      }
+      else
+      {
+        throw;
+      }
+    }
+    return NoContent();
+  }
   private bool SeedExists(int id)
   {
     return _db.Seeds.Any(e => e.SeedId == id);

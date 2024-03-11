@@ -21,6 +21,47 @@ namespace GardenGuardian.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("GardenApi.Models.Garden", b =>
+                {
+                    b.Property<int>("GardenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GardenId"));
+
+                    b.Property<int>("GridQty")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(90)
+                        .HasColumnType("character varying(90)");
+
+                    b.Property<string>("Size")
+                        .HasColumnType("text");
+
+                    b.HasKey("GardenId");
+
+                    b.ToTable("Gardens");
+                });
+
+            modelBuilder.Entity("GardenApi.Models.Grid", b =>
+                {
+                    b.Property<int>("GridId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GridId"));
+
+                    b.Property<string>("LocationCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("GridId");
+
+                    b.ToTable("Grids");
+                });
+
             modelBuilder.Entity("GardenApi.Models.Seed", b =>
                 {
                     b.Property<int>("SeedId")
@@ -45,7 +86,9 @@ namespace GardenGuardian.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.Property<string>("PhotoUrl")
                         .HasColumnType("text");
@@ -66,7 +109,9 @@ namespace GardenGuardian.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Status")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Type")
                         .HasColumnType("text");
@@ -98,6 +143,24 @@ namespace GardenGuardian.Migrations
                             Type = "vegetable",
                             Yield = 5
                         });
+                });
+
+            modelBuilder.Entity("GardenApi.Models.Tag", b =>
+                {
+                    b.Property<int>("TagId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TagId"));
+
+                    b.Property<string>("NameTag")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("TagId");
+
+                    b.ToTable("Tags");
                 });
 #pragma warning restore 612, 618
         }

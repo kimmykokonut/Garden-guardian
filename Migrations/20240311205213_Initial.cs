@@ -10,13 +10,41 @@ namespace GardenGuardian.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Gardens",
+                columns: table => new
+                {
+                    GardenId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(90)", maxLength: 90, nullable: false),
+                    Size = table.Column<string>(type: "text", nullable: true),
+                    GridQty = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Gardens", x => x.GardenId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Grids",
+                columns: table => new
+                {
+                    GridId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    LocationCode = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grids", x => x.GridId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Seeds",
                 columns: table => new
                 {
                     SeedId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Type = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
                     Information = table.Column<string>(type: "text", nullable: true),
                     PlantingDates = table.Column<string>(type: "text", nullable: true),
@@ -26,7 +54,7 @@ namespace GardenGuardian.Migrations
                     RowSpacing = table.Column<string>(type: "text", nullable: true),
                     DaysToHarvest = table.Column<int>(type: "integer", nullable: false),
                     PhotoUrl = table.Column<string>(type: "text", nullable: true),
-                    Status = table.Column<string>(type: "text", nullable: true),
+                    Status = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     DatePlanted = table.Column<string>(type: "text", nullable: true),
                     Results = table.Column<string>(type: "text", nullable: true),
                     Yield = table.Column<int>(type: "integer", nullable: false)
@@ -34,6 +62,19 @@ namespace GardenGuardian.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Seeds", x => x.SeedId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tags",
+                columns: table => new
+                {
+                    TagId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NameTag = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tags", x => x.TagId);
                 });
 
             migrationBuilder.InsertData(
@@ -45,7 +86,16 @@ namespace GardenGuardian.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Gardens");
+
+            migrationBuilder.DropTable(
+                name: "Grids");
+
+            migrationBuilder.DropTable(
                 name: "Seeds");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
         }
     }
 }
