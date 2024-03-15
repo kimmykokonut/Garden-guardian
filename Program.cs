@@ -14,7 +14,7 @@ builder.Services.AddControllers().AddJsonOptions(opt =>
 builder.Services.AddDbContext<GardenApiContext>(
     dbContextOptions => dbContextOptions
         .UseNpgsql(
-            builder.Configuration["ConnectionStrings:DefaultConnection"])    
+            builder.Configuration["ConnectionStrings:DefaultConnection"])
 );
 
 builder.Services.AddEndpointsApiExplorer();
@@ -23,17 +23,23 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-else
-{
-    app.UseHttpsRedirection(); //not redirect https during development
-}
+//if (app.Environment.IsDevelopment())
+//{
+app.UseSwagger();
+app.UseSwaggerUI();
+//}
+// else
+// {
+//     app.UseHttpsRedirection(); //not redirect https during development
+// }
 
 app.UseAuthorization();
+
+app.UseCors(builder => builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+); //for development access
 
 app.MapControllers();
 

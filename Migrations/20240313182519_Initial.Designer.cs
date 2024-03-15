@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GardenGuardian.Migrations
 {
     [DbContext(typeof(GardenApiContext))]
-    [Migration("20240311221218_Initial")]
+    [Migration("20240313182519_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,13 +31,16 @@ namespace GardenGuardian.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GardenId"));
 
-                    b.Property<int>("GridQty")
+                    b.Property<int>("Column")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(90)
                         .HasColumnType("character varying(90)");
+
+                    b.Property<int>("Row")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Size")
                         .HasColumnType("text");

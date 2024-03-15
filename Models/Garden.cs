@@ -9,7 +9,15 @@ namespace GardenApi.Models
     [StringLength(90)]
     public string Name { get; set; }
     public string Size { get; set; }
-    public int GridQty { get; set; }
-    public List<Grid> Grids { get; set; }
+    [Required]
+    public int Row { get; set; }
+    [Required]
+    public int Column { get; set; }
+    public List<Grid> Grids { get; set; } //flatten 2d array
+
+    public Garden()
+    {
+      Grids = new List<Grid>();
+    }
   }
 }

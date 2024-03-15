@@ -17,7 +17,8 @@ namespace GardenGuardian.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "character varying(90)", maxLength: 90, nullable: false),
                     Size = table.Column<string>(type: "text", nullable: true),
-                    GridQty = table.Column<int>(type: "integer", nullable: false)
+                    Row = table.Column<int>(type: "integer", nullable: false),
+                    Column = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

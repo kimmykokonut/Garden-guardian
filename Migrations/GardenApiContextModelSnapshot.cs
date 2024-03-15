@@ -29,13 +29,16 @@ namespace GardenGuardian.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("GardenId"));
 
-                    b.Property<int>("GridQty")
+                    b.Property<int>("Column")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(90)
                         .HasColumnType("character varying(90)");
+
+                    b.Property<int>("Row")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Size")
                         .HasColumnType("text");

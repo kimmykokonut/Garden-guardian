@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GardenApi.Models
 {
-    public class GardenApiContext : DbContext
+  public class GardenApiContext : DbContext
   {
     public DbSet<Garden> Gardens { get; set; }
     public DbSet<Grid> Grids { get; set; }
@@ -19,6 +19,11 @@ namespace GardenApi.Models
     protected override void OnModelCreating(ModelBuilder builder)
     {
       base.OnModelCreating(builder);
+
+      // builder.Entity<Grid>()
+      //   .HasOne(g => g.Garden)
+      //   .WithMany()
+      //   .HasForeignKey(g => g.GardenId);
 
       builder.Entity<Seed>()
           .HasData(

@@ -16,7 +16,7 @@ namespace GardenApi.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Garden>>> Get(string name, string size, int gridQty)
+    public async Task<ActionResult<IEnumerable<Garden>>> Get(string name, string size)
     {
       var query = _db.Gardens.AsQueryable();
 
@@ -24,16 +24,10 @@ namespace GardenApi.Controllers
       {
         query = query.Where(entry => entry.Name == name);
       }
-
-      if (gridQty != 0)
-      {
-        query = query.Where(entry => entry.GridQty == gridQty);
-      }
-
       return await query.ToListAsync();
     }
 
-    [HttpGet("{id}")] 
+    [HttpGet("{id}")]
     public async Task<ActionResult<Garden>> GetGarden(int id)
     {
       Garden thisgarden = await _db.Gardens
@@ -46,10 +40,24 @@ namespace GardenApi.Controllers
       return thisgarden;
     }
 
-    [HttpPost]
+    [HttpPost] //create garden & corr.grid
     public async Task<ActionResult<Garden>> Post(Garden garden)
     {
       _db.Gardens.Add(garden);
+
+      // garden.Grids = new List<List<Grid>>(); //initialize grid layout
+      for (int i = 0; i < garden.Row; i++)
+      {
+        //var row = new List<Grid>();
+        for (int j = 0; j < garden.Column; j++)
+        {
+          var grid = new Grid { LocationCode = $"{i + 1}{(char)('A' + j)}", GardenId = garden.GardenId };
+          _db.Grids.Add(grid);
+          garden.Grids.Add(grid);
+        }
+
+      }
+
       await _db.SaveChangesAsync();
       return CreatedAtAction(nameof(GetGarden), new { id = garden.GardenId }, garden);
     }
