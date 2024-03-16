@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEffect, useState } from "react";
 import { getGardenById } from "../api-helper";
 import { useParams } from "react-router-dom";
 
@@ -12,6 +12,7 @@ interface Garden {
 }
 interface GardenDetailParams {
   gardenId: string;
+  [key: string]: string | undefined;
 }
 
 
@@ -49,7 +50,7 @@ const GardenDetail = () => {
           <p>Total Grids: {garden.row * garden.column}</p>
           <p>Grids:</p>
           <ul>
-            {garden.grids.$values.map((grid) => (
+            {garden.grids.$values.map((grid: { gridId: Key | null | undefined; locationCode: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | null | undefined; }) => (
               <li key={grid.gridId}>{grid.locationCode}</li>
             ))}
           </ul>
