@@ -3,7 +3,9 @@
 </p>
 
 #### An application to track your gardening process and results over time
-[See it live on render](https://garden-client.onrender.com/)
+<p align="center">
+  <a href="https://garden-client.onrender.com">See it live on render</a>
+</p>
 
 ![splash page](./ClientApp/src/assets/splash.png)
 
@@ -312,6 +314,3 @@ MIT License, see license.md for more information
 
 ### Acknowledgements
 Thanks to my Epicodus team for the kickstart to get this project started and digging deep into the API together. Gabriel Tucker, Nikkita Torres, Chris Davila Ross
-
-todo:
---update api to search query by name for .includes
