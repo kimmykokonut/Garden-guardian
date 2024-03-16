@@ -44,7 +44,8 @@ const SeedDetail: React.FC<Props> = () => {
 //     return <div>...loading...</div>;
 //   }
 
-//   return(
+   return(
+    <h2>seed detail page in progress</h2>
 //     <div id="seed-deets">
 //       <h1>{seed.Name}</h1>
 //       <img src={seed.PhotoUrl} alt="seed image" />
@@ -62,6 +63,6 @@ const SeedDetail: React.FC<Props> = () => {
 //       <p>{seed.Results}</p>
 //       <p>{seed.Yield}</p>
 //     </div>
-//   );
+  );
 }
 export default SeedDetail;

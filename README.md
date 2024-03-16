@@ -3,6 +3,7 @@
 </p>
 
 #### An application to track your gardening process and results over time
+[See it live on render](https://garden-client.onrender.com/)
 
 ![splash page](./ClientApp/src/assets/splash.png)
 
@@ -250,7 +251,6 @@ DELETE /api/gardens/{id}   | Deletes garden object by id
 | Parameter | Type | Default | Required | Description |
 | :---: | :---: | :---: | :---: | --- |
 | name | string | none | true | Return matches by name.
-| size | string | none | true | Return gardens based on size. |
 
 #### Example Query
 ```
@@ -315,4 +315,3 @@ Thanks to my Epicodus team for the kickstart to get this project started and dig
 
 todo:
 --update api to search query by name for .includes
---deploy, add link

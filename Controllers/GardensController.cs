@@ -16,13 +16,13 @@ namespace GardenApi.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Garden>>> Get(string name, string size)
+    public async Task<ActionResult<IEnumerable<Garden>>> Get(string name)
     {
       var query = _db.Gardens.AsQueryable();
 
       if (name != null)
       {
-        query = query.Where(entry => entry.Name == name);
+        query = query.Where(entry => entry.Name.Contains(name));
       }
       return await query.ToListAsync();
     }
